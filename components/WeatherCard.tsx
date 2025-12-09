@@ -1,16 +1,17 @@
 import { ReactNode } from "react";
 
 interface CardProps {
-  title: string;
-  value: string | number;
+  weatherInfo: number | string;
   icon?: ReactNode;
+  title: string;
 }
 
-export default function WeatherCard({ title, value, icon }: CardProps) {
+export default function WeatherCard({ weatherInfo, title, icon }: CardProps) {
   return (
-    <article>
+    <article className="bg-[var(--color-primary)]  rounded-2xl w-[200px] h-[200px] flex flex-col justify-center items-center">
+      {icon}
       <p>{title}</p>
-      <b>{value}</b>
+      <b className="text-4xl">{weatherInfo}</b>
     </article>
   );
 }
