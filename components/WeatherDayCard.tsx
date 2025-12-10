@@ -1,5 +1,7 @@
 import { WeatherForecast } from "@/types/weatherData";
 import Image from "next/image";
+import useWeatherForecast from "@/hooks/useWeatherForecast";
+import { useUserStore } from "@/store/user-store";
 
 function TodayForecast({ forecastData }: { forecastData: WeatherForecast }) {
   const today = forecastData.forecast.forecastday[0];
@@ -60,20 +62,28 @@ function DaysForecast({ forecastData }: { forecastData: WeatherForecast }) {
 
 interface WeatherDayCardProps {
   type: "today-forecast" | "days-forecast";
-  forecastData: WeatherForecast;
 }
 
-export default function WeatherDayCard({
-  type,
-  forecastData,
-}: WeatherDayCardProps) {
-  return (
-    <>
-      {type === "today-forecast" ? (
-        <TodayForecast forecastData={forecastData} />
-      ) : (
-        <DaysForecast forecastData={forecastData} />
-      )}
-    </>
+export default function WeatherDayCard({ type }: WeatherDayCardProps) {
+  const selectedCity = useUserStore((state) => state.selectedCity);
+
+  const { data: sevenDaysForecast, isLoading: isLoading7 } = useWeatherForecast(
+    selectedCity,
+    7
   );
+
+  const { data: todayForecast, isLoading: isLoading1 } = useWeatherForecast(
+    selectedCity,
+    1
+  );
+
+  if (type === "today-forecast") {
+    if (isLoading1 || !todayForecast) return <p>Loading...</p>;
+
+    return <TodayForecast forecastData={todayForecast} />;
+  }
+
+  if (isLoading7 || !sevenDaysForecast) return <p>Loading...</p>;
+
+  return <DaysForecast forecastData={sevenDaysForecast} />;
 }
