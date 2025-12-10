@@ -27,3 +27,25 @@ export type WeatherCurrent = {
     icon: string;
   };
 };
+
+export type WeatherForecast = {
+  forecast: {
+    forecastday: {
+      date: string;
+      day: {
+        maxtemp_c: number;
+        mintemp_c: number;
+        condition: {
+          icon: string;
+        };
+      };
+      hour: {
+        time: string;
+        temp_c: number;
+        condition: {
+          icon: string;
+        };
+      }[];
+    }[];
+  };
+};

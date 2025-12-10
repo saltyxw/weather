@@ -10,6 +10,7 @@ const { Search } = Input;
 import useDebounce from "@/hooks/useDebounce";
 import { City } from "@/types/cities";
 import useCurrentWeather from "@/hooks/useCurrentWeather";
+import useWeatherForecast from "@/hooks/useWeatherForecast";
 
 export default function Home() {
   const [city, setCity] = useState("");
@@ -21,6 +22,9 @@ export default function Home() {
     isLoading,
     error: err,
   } = useCurrentWeather(selectedCity);
+  const { data: sevenDaysForecast } = useWeatherForecast(selectedCity, 7);
+  const { data: todayForecast } = useWeatherForecast(selectedCity, 1);
+
   function selectCity(city: string) {
     setSelectedCity(city);
     setCity("");
@@ -28,7 +32,7 @@ export default function Home() {
   return (
     <div className="">
       <main className=" grid grid-cols-[2fr_1fr] gap-1 ">
-        <section className="flex flex-col gap-5">
+        <section className="flex flex-col gap-5 min-w-0">
           <div className=" flex items-center relative">
             <Search
               placeholder="Search your city..."
@@ -73,13 +77,23 @@ export default function Home() {
             temperature={weather?.current.temp_c ?? 0}
             weatherIcon={weather?.current.condition.icon ?? "file.svg"}
           ></HeroWeatherCard>
-          <WeatherDayCard type="today-forecast"></WeatherDayCard>
+          {todayForecast && (
+            <WeatherDayCard
+              type="today-forecast"
+              forecastData={todayForecast}
+            ></WeatherDayCard>
+          )}
           {weather?.current && (
             <WeatherCardList currentWeather={weather.current}></WeatherCardList>
           )}
         </section>
-        <aside className="">
-          <WeatherDayCard type="days-forecast"></WeatherDayCard>
+        <aside className="min-w-0">
+          {sevenDaysForecast && (
+            <WeatherDayCard
+              type="days-forecast"
+              forecastData={sevenDaysForecast}
+            ></WeatherDayCard>
+          )}
         </aside>
       </main>
     </div>

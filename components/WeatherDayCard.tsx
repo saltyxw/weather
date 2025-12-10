@@ -1,37 +1,79 @@
+import { WeatherForecast } from "@/types/weatherData";
 import Image from "next/image";
 
-function TodayForecast() {
+function TodayForecast({ forecastData }: { forecastData: WeatherForecast }) {
+  const today = forecastData.forecast.forecastday[0];
+
   return (
-    <section className="bg-[var(--color-primary)]">
-      <h2>Today forecast</h2>
-      <article className=" rounded-2xl p-2 flex flex-col items-center gap-2 ">
-        <time>10:00</time>
-        <Image src="/file.svg" alt="as" width={100} height={100} />
-        <p>35/18</p>
-      </article>
+    <section className="bg-[var(--color-primary)] p-3 rounded-xl overflow-x-auto ">
+      <h2 className="text-xl font-semibold mb-2">Today forecast</h2>
+
+      <h3 className="text-lg font-bold mb-2">{today.date}</h3>
+
+      <div className="flex gap-3 ">
+        {today.hour.map((h) => (
+          <article
+            key={h.time}
+            className="flex flex-col items-center bg-[var(--color-secondary)] rounded-xl p-2 min-w-[100px]"
+          >
+            <time>{h.time.slice(-5)}</time>
+
+            <Image
+              src={`https:${h.condition.icon}`}
+              alt="weather icon"
+              width={50}
+              height={50}
+            />
+
+            <p>{h.temp_c}°C</p>
+          </article>
+        ))}
+      </div>
     </section>
   );
 }
 
-function DaysForecast() {
+function DaysForecast({ forecastData }: { forecastData: WeatherForecast }) {
   return (
     <section className="bg-[var(--color-primary)]">
       <h2>7-days forecast</h2>
-      <article className=" flex items-center justify-between rounded-2xl p-2">
-        <time>10.02</time>
-        <Image src="/file.svg" alt="as" width={100} height={100} />
-        <p>35/18</p>
-      </article>
+      {forecastData.forecast.forecastday.map((day) => (
+        <article
+          key={day.date}
+          className=" flex items-center justify-between rounded-2xl p-2"
+        >
+          <time>{day.date}</time>
+          <Image
+            src={`https:${day.day.condition.icon}`}
+            alt="as"
+            width={100}
+            height={100}
+          />
+          <p>
+            {day.day.mintemp_c}°C/{day.day.maxtemp_c}°C
+          </p>
+        </article>
+      ))}
     </section>
   );
 }
 
 interface WeatherDayCardProps {
   type: "today-forecast" | "days-forecast";
+  forecastData: WeatherForecast;
 }
 
-export default function WeatherDayCard({ type }: WeatherDayCardProps) {
+export default function WeatherDayCard({
+  type,
+  forecastData,
+}: WeatherDayCardProps) {
   return (
-    <>{type === "today-forecast" ? <TodayForecast /> : <DaysForecast />}</>
+    <>
+      {type === "today-forecast" ? (
+        <TodayForecast forecastData={forecastData} />
+      ) : (
+        <DaysForecast forecastData={forecastData} />
+      )}
+    </>
   );
 }
