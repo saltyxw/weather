@@ -5,14 +5,18 @@ import useDebounce from "@/hooks/useDebounce";
 import { City } from "@/types/cities";
 import { useCities } from "@/hooks/useCities";
 import { useUserStore } from "@/store/user-store";
+
 export default function SearchCityInput() {
   const [city, setCity] = useState("");
-  const debouncedSearch = useDebounce(city, 1000);
+  const debouncedSearch = useDebounce(city, 500);
   const { data, isPending } = useCities(debouncedSearch);
   const setSelectedCity = useUserStore((state) => state.setSelectedCity);
+  const searchHistory = useUserStore((state) => state.searchHistory);
+  const addToHistory = useUserStore((state) => state.addToHistory);
 
   function selectCity(city: string) {
     setSelectedCity(city);
+    addToHistory(city);
     setCity("");
   }
   return (
@@ -33,7 +37,7 @@ export default function SearchCityInput() {
       {debouncedSearch.length > 0 &&
         !isPending &&
         (data && data.length > 0 ? (
-          <div className="bg-[var(--color-primary)] top-15 w-full absolute rounded-2xl z-100 p-2 shadow-lg ">
+          <div className="bg-[var(--color-primary)] top-15 w-full absolute rounded-2xl z-50 p-2 shadow-lg ">
             {data.map((city: City) => (
               <p
                 key={city.id}
@@ -42,6 +46,16 @@ export default function SearchCityInput() {
               >
                 {city.name}, {city.country}
               </p>
+            ))}
+            <p className="opacity-70">Recent searched</p>
+            {searchHistory.map((searchedCity: string, index) => (
+              <span
+                className="ml-5 p-1 bg-[var(--color-secondary)] rounded-xl cursor-pointer"
+                key={index}
+                onClick={() => selectCity(searchedCity)}
+              >
+                {searchedCity}
+              </span>
             ))}
           </div>
         ) : (

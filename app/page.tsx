@@ -12,17 +12,15 @@ export default function Home() {
 
   return (
     <div className="">
-      {/* HEADER */}
       <div
         className={`
           transition-all duration-1000 
-          ${noCitySelected ? "translate-y-0 mt-100" : "-translate-y-7"}
+          ${noCitySelected ? "translate-y-0 mt-100" : "mt-[-28px]"}
         `}
       >
         <Header />
       </div>
 
-      {/* ТЕКСТ ЯКЩО НЕМА МІСТА */}
       {noCitySelected && (
         <p
           className="
@@ -34,7 +32,6 @@ export default function Home() {
         </p>
       )}
 
-      {/* MAIN-КОНТЕНТ КОЛИ МІСТО ВИБРАНЕ */}
       {!noCitySelected && (
         <div
           className="

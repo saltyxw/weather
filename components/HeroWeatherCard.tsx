@@ -12,7 +12,7 @@ export default function HeroWeatherCard({
   weatherIcon,
 }: Props) {
   return (
-    <article className="flex  justify-between p-5">
+    <article className="flex z-0  justify-between p-5">
       <div>
         <h2 className="text-5xl font-bold">{cityName}</h2>
         <p className="text-6xl font-bold">{temperature}°</p>
