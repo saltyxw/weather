@@ -3,6 +3,7 @@ import HeroWeatherCard from "@/components/HeroWeatherCard";
 import useCurrentWeather from "@/hooks/useCurrentWeather";
 import { useUserStore } from "@/store/user-store";
 import WeatherDayCard from "./WeatherDayCard";
+import SevenDaysChart from "./SevenDaysTemperatureChart";
 
 export default function CurrentSectionWeather() {
   const selectedCity = useUserStore((state) => state.selectedCity);
@@ -18,6 +19,7 @@ export default function CurrentSectionWeather() {
       />
       <WeatherDayCard type="today-forecast"></WeatherDayCard>
       {weather?.current && <WeatherCardList currentWeather={weather.current} />}
+      <SevenDaysChart></SevenDaysChart>
     </>
   );
 }
