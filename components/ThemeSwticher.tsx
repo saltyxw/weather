@@ -2,8 +2,7 @@
 
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-
-const themes = ["light", "dark"];
+import { Sun, Moon } from "lucide-react";
 
 export default function ThemeSelector() {
   const { theme, setTheme } = useTheme();
@@ -15,24 +14,25 @@ export default function ThemeSelector() {
     if (savedTheme) setTheme(savedTheme);
   }, [setTheme]);
 
-  // Prevents hydration mismatch
   if (!mounted) return null;
 
+  const toggleTheme = () => {
+    const newTheme = theme === "light" ? "dark" : "light";
+    setTheme(newTheme);
+    localStorage.setItem("theme", newTheme);
+  };
+
   return (
-    <div className="flex items-center gap-4">
-      <div className="flex items-center gap-2">
-        <select
-          value={theme}
-          onChange={(e) => setTheme(e.target.value)}
-          className="rounded-md border p-2"
-        >
-          {themes.map((t) => (
-            <option key={t} value={t}>
-              {t.charAt(0).toUpperCase() + t.slice(1)}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
+    <button
+      onClick={toggleTheme}
+      className="p-2 rounded-md hover:bg-gray-200 dark:hover:bg-gray-700 transition cursor-pointer"
+      aria-label="Toggle theme"
+    >
+      {theme === "light" ? (
+        <Sun size={40} className="text-yellow-500" />
+      ) : (
+        <Moon size={40} className="text-blue-300" />
+      )}
+    </button>
   );
 }

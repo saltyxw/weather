@@ -17,7 +17,7 @@ interface props {
 
 export default function WeatherCardList({ currentWeather }: props) {
   return (
-    <section className=" rounded-2xl p-2 grid grid-cols-[repeat(2,auto)] place-items-center gap-2 ">
+    <section className=" rounded-2xl p-2 grid grid-cols-[repeat(2,auto)] md:grid-cols-[repeat(3,auto)] place-items-center gap-2 ">
       <WeatherCard
         title="Wind kph"
         weatherInfo={currentWeather.wind_kph}

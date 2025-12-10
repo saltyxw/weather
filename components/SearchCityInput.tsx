@@ -5,7 +5,6 @@ import useDebounce from "@/hooks/useDebounce";
 import { City } from "@/types/cities";
 import { useCities } from "@/hooks/useCities";
 import { useUserStore } from "@/store/user-store";
-
 export default function SearchCityInput() {
   const [city, setCity] = useState("");
   const debouncedSearch = useDebounce(city, 1000);
@@ -17,23 +16,24 @@ export default function SearchCityInput() {
     setCity("");
   }
   return (
-    <div className=" flex items-center relative">
+    <div className=" flex items-center relative min-w-2xs max-w-3xl w-full">
       <Search
         placeholder="Search your city..."
         value={city}
         onChange={(e) => setCity(e.target.value)}
+        size="large"
         enterButton
         className="
-  p-5
-  [&_.ant-input]:!bg-[--color-primary]
-  [&_.ant-input]:!text-[--color-text]
-  [&_.ant-input::placeholder]:!text-[--color-placeholder]
+  p-5  
+  [&_.ant-input]:!bg-[var(--color-primary)]
+  [&_.ant-input]:!text-[var(--color-text)]
+  [&_.ant-input::placeholder]:!text-[var(--color-placeholder)]
 "
       ></Search>
       {debouncedSearch.length > 0 &&
         !isPending &&
         (data && data.length > 0 ? (
-          <div className="bg-[--color-primary] top-9 w-full absolute rounded-2xl z-100 p-2 shadow-lg ">
+          <div className="bg-[var(--color-primary)] top-15 w-full absolute rounded-2xl z-100 p-2 shadow-lg ">
             {data.map((city: City) => (
               <p
                 key={city.id}
@@ -45,12 +45,12 @@ export default function SearchCityInput() {
             ))}
           </div>
         ) : (
-          <div className="bg-[--color-primary] top-9 w-full absolute rounded-2xl z-100 p-2 shadow-lg ">
+          <div className="bg-[--color-primary] top-10 w-full absolute rounded-2xl z-100 p-2 shadow-lg ">
             <p className="text-center p-3 text-gray-500">No results</p>
           </div>
         ))}
       {debouncedSearch.length > 0 && isPending && (
-        <div className="bg-[--color-primary] top-9 w-full absolute rounded-2xl z-100 p-2 shadow-lg ">
+        <div className="bg-[--color-primary] top-10 w-full absolute rounded-2xl z-100 p-2 shadow-lg ">
           <p className="text-center p-3 text-gray-500">Loading...</p>
         </div>
       )}

@@ -14,14 +14,14 @@ export default function HeroWeatherCard({
   return (
     <article className="flex  justify-between p-5">
       <div>
-        <h2 className="text-3xl">{cityName}</h2>
+        <h2 className="text-5xl font-bold">{cityName}</h2>
         <p className="text-6xl font-bold">{temperature}°</p>
       </div>
       <Image
         src={`https:${weatherIcon}`}
         alt="as"
-        width={100}
-        height={100}
+        width={150}
+        height={150}
         className=""
       />
     </article>

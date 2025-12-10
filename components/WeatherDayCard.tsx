@@ -7,8 +7,8 @@ function TodayForecast({ forecastData }: { forecastData: WeatherForecast }) {
   const today = forecastData.forecast.forecastday[0];
 
   return (
-    <section className="bg-[var(--color-primary)] p-3 rounded-xl overflow-x-auto ">
-      <h2 className="text-xl font-semibold mb-2">Today forecast</h2>
+    <section className="bg-[var(--color-primary)]/50 p-5 rounded-xl overflow-x-auto ">
+      <h2 className="text-3xl font-bold mb-2">Today forecast</h2>
 
       <h3 className="text-lg font-bold mb-2">{today.date}</h3>
 
@@ -16,7 +16,7 @@ function TodayForecast({ forecastData }: { forecastData: WeatherForecast }) {
         {today.hour.map((h) => (
           <article
             key={h.time}
-            className="flex flex-col items-center bg-[var(--color-secondary)] rounded-xl p-2 min-w-[100px]"
+            className="flex flex-col items-center bg-[var(--color-secondary)]/50  rounded-xl p-5 min-w-[100px]"
           >
             <time>{h.time.slice(-5)}</time>
 
@@ -37,12 +37,12 @@ function TodayForecast({ forecastData }: { forecastData: WeatherForecast }) {
 
 function DaysForecast({ forecastData }: { forecastData: WeatherForecast }) {
   return (
-    <section className="bg-[var(--color-primary)]">
-      <h2>7-days forecast</h2>
+    <section className="bg-[var(--color-primary)]/50 rounded-2xl p-5">
+      <h2 className="text-3xl font-bold">7-days forecast</h2>
       {forecastData.forecast.forecastday.map((day) => (
         <article
           key={day.date}
-          className=" flex items-center justify-between rounded-2xl p-2"
+          className=" flex items-center justify-between border-b border-gray-400"
         >
           <time>{day.date}</time>
           <Image

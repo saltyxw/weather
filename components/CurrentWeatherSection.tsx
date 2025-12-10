@@ -2,6 +2,7 @@ import WeatherCardList from "@/components/WeatherCardList";
 import HeroWeatherCard from "@/components/HeroWeatherCard";
 import useCurrentWeather from "@/hooks/useCurrentWeather";
 import { useUserStore } from "@/store/user-store";
+import WeatherDayCard from "./WeatherDayCard";
 
 export default function CurrentSectionWeather() {
   const selectedCity = useUserStore((state) => state.selectedCity);
@@ -15,7 +16,7 @@ export default function CurrentSectionWeather() {
         temperature={weather?.current.temp_c ?? 0}
         weatherIcon={weather?.current.condition.icon ?? "file.svg"}
       />
-
+      <WeatherDayCard type="today-forecast"></WeatherDayCard>
       {weather?.current && <WeatherCardList currentWeather={weather.current} />}
     </>
   );
